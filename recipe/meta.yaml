@@ -6,12 +6,12 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: baa6efce249e4f696de66df5939066f826cebe4b97379ebab8070cc15c9f812e
 
 build:
   noarch: python
-  number: 0
+  number: 1
   entry_points:
     - cox-tensorboard=cox.tensorboard_view:main
   script: {{ PYTHON }} -m pip install .  -vv
@@ -19,13 +19,13 @@ build:
 requirements:
   host:
     - pip
-    - python
+    - python {{ python_min }}
   run:
     - gitpython
     - grpcio
     - psutil
     - py3nvml
-    - python
+    - python >={{ python_min }}
     - tqdm
     - pandas
     - pytorch
@@ -33,6 +33,8 @@ requirements:
     - tensorboardx
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - cox
   commands:
